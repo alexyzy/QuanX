@@ -191,11 +191,11 @@ function API(name = "untitled", debug = false) {
       this.log(`SET ${key}`);
       if (key.indexOf("#") !== -1) {
         key = key.substr(1);
-        if (isSurge & isLoon) {
-          $persistentStore.write(data, key);
+        if (isSurge || isLoon) {
+          return $persistentStore.write(data, key);
         }
         if (isQX) {
-          $prefs.setValueForKey(data, key);
+          return $prefs.setValueForKey(data, key);
         }
         if (isNode) {
           this.root[key] = data;
@@ -210,7 +210,7 @@ function API(name = "untitled", debug = false) {
       this.log(`READ ${key}`);
       if (key.indexOf("#") !== -1) {
         key = key.substr(1);
-        if (isSurge & isLoon) {
+        if (isSurge || isLoon) {
           return $persistentStore.read(key);
         }
         if (isQX) {
@@ -228,11 +228,11 @@ function API(name = "untitled", debug = false) {
       this.log(`DELETE ${key}`);
       if (key.indexOf("#") !== -1) {
         key = key.substr(1);
-        if (isSurge & isLoon) {
-          $persistentStore.write(null, key);
+        if (isSurge || isLoon) {
+          return $persistentStore.write(null, key);
         }
         if (isQX) {
-          $prefs.removeValueForKey(key);
+          return $prefs.removeValueForKey(key);
         }
         if (isNode) {
           delete this.root[key];
